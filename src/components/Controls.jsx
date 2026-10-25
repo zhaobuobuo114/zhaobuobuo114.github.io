@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Mail } from 'lucide-react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useApp } from '../store.jsx'
 import { useGlassHover } from '../hooks/useGlassHover.js'
 import { SWITCH_ANIM, SWITCH_EXIT } from '../lib/switchAnim.js'
@@ -12,9 +13,12 @@ const LANGS = [
 
 /* 联系我们胶囊：与语言胶囊同一套玻璃质感与交互（不位移，只跟随高光 + hover 果冻）
    文案切换复用副标题的模糊淡入动画，胶囊宽度同步平滑伸缩
-   目前为占位按钮，后续接联系入口（邮件 / 面板）时加 onClick 即可 */
+   点击进入联系我们页面 */
 export function ContactPill() {
   const { t, lang, staticMode } = useApp()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const active = pathname === '/contact'
   const { wrapRef, pillRef } = useGlassHover(0)
   const mirrorRef = useRef(null)
   const [pillW, setPillW] = useState(null)
@@ -39,6 +43,11 @@ export function ContactPill() {
         type="button"
         className="glass-pill lang-pill contact-pill pointer-events-auto relative"
         aria-label={t('nav.contact')}
+        onClick={() => {
+          if (!active) navigate('/contact')
+        }}
+        data-active={active ? '1' : '0'}
+        aria-current={active ? 'page' : undefined}
         animate={{ width: pillW ?? 'auto' }}
         transition={{ width: { duration: 0.35, ease: [0.34, 1.56, 0.64, 1] } }}
       >
