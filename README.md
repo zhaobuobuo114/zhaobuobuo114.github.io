@@ -37,6 +37,12 @@ git push origin main
 - 新增顶级页面：在 `src/App.jsx` 加路由，并在 `src/siteMap.js` 的 `STATIC_ROUTES` 登记
 - 新增插件：只改 `src/data/plugins.js`，详情页入口会自动生成
 
+## 布局约定
+
+- 全站为垂直滚动条永久预留槽位（`html { scrollbar-gutter: stable }`）。长页面出现滚动条时，顶栏、正文、页脚的横向位置与短页面完全一致。
+- 不要为某个页面单独添加补偿滚动条宽度的 `padding-right`，也不要用 `overflow-y: scroll` 强制显示滚动条。
+- 新增页面统一挂在常驻 `SiteLayout` 下，页面根节点保持 `flex: 1`，高度由内容自然撑开。
+
 ## 结构
 
 ```text

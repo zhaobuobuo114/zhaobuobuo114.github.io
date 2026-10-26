@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Boxes } from 'lucide-react'
-import SiteHeader from '../components/SiteHeader.jsx'
 import { useApp } from '../store.jsx'
 
 /* 未匹配路由：真实地址不存在时给一个可返回的落点 */
@@ -9,7 +8,6 @@ export default function NotFound() {
 
   return (
     <div className="repo-page">
-      <SiteHeader brandLink />
       <main className="notfound-main">
         <div className="glass-card notfound-card">
           <p className="notfound-code font-display">404</p>

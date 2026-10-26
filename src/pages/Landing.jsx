@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import SiteHeader from '../components/SiteHeader.jsx'
 import { useApp } from '../store.jsx'
 import { useGlassHover } from '../hooks/useGlassHover.js'
 import { SWITCH_ANIM, SWITCH_EXIT } from '../lib/switchAnim.js'
@@ -198,8 +197,7 @@ export default function Landing() {
   }, [])
 
   return (
-    <div className="relative flex min-h-screen flex-col">
-      <SiteHeader delay={0.35} />
+    <div className="relative flex min-h-0 flex-1 flex-col">
 
       {/* 标题区：大标题精确垂直居中，与开场动画标题逐像素一致 */}
       <div className="pointer-events-none fixed inset-0 z-[1] flex items-center justify-center">

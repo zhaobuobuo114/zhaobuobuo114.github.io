@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, Check, Mail, MessageCircle, MessageSquareText, Tv, Users } from 'lucide-react'
-import SiteHeader from '../components/SiteHeader.jsx'
 import LangSwap from '../components/LangSwap.jsx'
 import ContactCard from '../components/ContactCard.jsx'
 import QrModal from '../components/QrModal.jsx'
@@ -86,7 +85,6 @@ export default function Contact() {
 
   return (
     <div className="repo-page">
-      <SiteHeader brandLink />
 
       <main className="contact-main">
         <motion.header

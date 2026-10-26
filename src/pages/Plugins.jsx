@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, SlidersHorizontal, X } from 'lucide-react'
-import SiteHeader from '../components/SiteHeader.jsx'
 import LangSwap from '../components/LangSwap.jsx'
 import RepoCard from '../components/RepoCard.jsx'
 import { useLiquidLight } from '../hooks/useLiquidLight.js'
@@ -124,7 +123,6 @@ export default function Plugins() {
 
   return (
     <div className="repo-page">
-      <SiteHeader brandLink publish />
 
       <main className="repo-main">
         <motion.aside

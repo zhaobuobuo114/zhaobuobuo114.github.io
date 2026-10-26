@@ -1,6 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, Download, Github, Terminal, User } from 'lucide-react'
-import SiteHeader from '../components/SiteHeader.jsx'
 import { getPlugin } from '../data/plugins.js'
 import { useApp } from '../store.jsx'
 
@@ -13,7 +12,6 @@ export default function PluginDetail() {
   if (!plugin) {
     return (
       <div className="repo-page">
-        <SiteHeader brandLink />
         <main className="detail-main">
           <div className="glass-card detail-missing">
             <p className="font-display text-lg" style={{ color: 'var(--c-text)' }}>
@@ -31,7 +29,6 @@ export default function PluginDetail() {
 
   return (
     <div className="repo-page">
-      <SiteHeader brandLink />
 
       <main className="detail-main">
         <Link to="/plugins" className="detail-back">

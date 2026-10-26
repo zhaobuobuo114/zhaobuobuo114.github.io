@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Upload } from 'lucide-react'
@@ -12,6 +13,13 @@ import { useApp } from '../store.jsx'
    - publish 在品牌右侧加入「发布」胶囊，仅仓库页使用 */
 export default function SiteHeader({ delay = 0.35, brandLink = false, publish = false }) {
   const { t, staticMode } = useApp()
+  const [animateIn] = useState(() => {
+    try {
+      return sessionStorage.getItem('zhbo-header-in') !== '1'
+    } catch {
+      return true
+    }
+  })
 
   const brand = (
     <div className="site-brand flex items-center gap-3">
@@ -26,9 +34,17 @@ export default function SiteHeader({ delay = 0.35, brandLink = false, publish = 
   return (
     <motion.header
       className="site-header"
-      initial={staticMode ? false : { opacity: 0 }}
+      data-publish={publish ? '1' : '0'}
+      initial={staticMode || !animateIn ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, delay }}
+      onAnimationComplete={() => {
+        try {
+          sessionStorage.setItem('zhbo-header-in', '1')
+        } catch {
+          /* 忽略隐私模式下的存储异常 */
+        }
+      }}
     >
       <div className="site-head-left">
         {brandLink ? (

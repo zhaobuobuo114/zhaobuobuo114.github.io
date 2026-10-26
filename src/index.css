@@ -35,8 +35,12 @@
   border-color: var(--c-border);
 }
 
+/* 全站布局铁律：始终为垂直滚动条预留固定槽位。
+   长页面出现滚动条时，内容区不会变窄，顶栏与正文的横向位置和短页面完全一致。
+   新增页面自动继承；禁止用 overflow-y: scroll 强制显示滚动条。 */
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -659,11 +663,28 @@ html[data-static='1'] .grid-blocks {
   text-decoration: none;
 }
 
-.repo-page {
+/* 全站常驻布局：顶栏只挂载一次，页面内容填满剩余高度 */
+.site-shell {
   position: relative;
   z-index: 1;
   display: flex;
   min-height: 100vh;
+  flex-direction: column;
+}
+
+.site-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.repo-page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
   flex-direction: column;
 }
 
@@ -672,6 +693,7 @@ html[data-static='1'] .grid-blocks {
   grid-template-columns: 272px minmax(0, 1fr);
   gap: 30px;
   align-items: start;
+  flex: 1 1 auto;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -1380,6 +1402,7 @@ html[data-static='1'] .grid-blocks {
 
 /* ---------- 二级页：插件详情 ---------- */
 .detail-main {
+  flex: 1 1 auto;
   width: 100%;
   max-width: 1060px;
   margin: 0 auto;
@@ -1776,6 +1799,10 @@ html[data-static='1'] .grid-blocks {
   }
 
   .publish-text {
+    display: none;
+  }
+
+  .site-header[data-publish='1'] .site-brand > span {
     display: none;
   }
 }

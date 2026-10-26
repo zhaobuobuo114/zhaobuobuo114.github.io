@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Splash from './components/Splash.jsx'
 import BackgroundFX from './components/BackgroundFX.jsx'
+import SiteLayout from './components/SiteLayout.jsx'
 import Landing from './pages/Landing.jsx'
 import Plugins from './pages/Plugins.jsx'
 import PluginDetail from './pages/PluginDetail.jsx'
@@ -24,11 +25,13 @@ export default function App() {
     <>
       <BackgroundFX />
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/plugins" element={<Plugins />} />
-        <Route path="/plugins/:slug" element={<PluginDetail />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="*" element={<NotFound />} />
+        <Route element={<SiteLayout />}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/plugins" element={<Plugins />} />
+          <Route path="/plugins/:slug" element={<PluginDetail />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
       {showSplash && <Splash onDone={finishSplash} />}
     </>
