@@ -42,10 +42,10 @@ export default function RepoCard({ plugin, flash = false }) {
           <h3 className="repo-card-title font-display">
             <Link to={`/plugins/${plugin.slug}`} className="repo-card-title-link">
               {pick(plugin.gameplay)}
+              <span className="repo-card-name">
+                {lang === 'zh' ? `（${plugin.name}）` : ` (${plugin.name})`}
+              </span>
             </Link>
-            <span className="repo-card-name">
-              {lang === 'zh' ? `（${plugin.name}）` : ` (${plugin.name})`}
-            </span>
           </h3>
 
           <div className="repo-card-badges">
@@ -62,7 +62,9 @@ export default function RepoCard({ plugin, flash = false }) {
         </div>
 
         <div className="repo-card-body">
-          <p className="repo-card-desc">{pick(plugin.desc)}</p>
+          <Link to={`/plugins/${plugin.slug}`} className="repo-card-desc">
+            {pick(plugin.desc)}
+          </Link>
           <a
             className="repo-dl"
             href={plugin.download}

@@ -1260,6 +1260,10 @@ html[data-static='1'] .grid-blocks {
   color: var(--c-cyan);
 }
 
+.repo-card-title-link:hover .repo-card-name {
+  color: var(--c-cyan);
+}
+
 .repo-card-name {
   font-size: 13px;
   font-weight: 500;
@@ -1323,6 +1327,12 @@ html[data-static='1'] .grid-blocks {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.repo-card-desc:hover {
+  color: var(--c-text);
 }
 
 .repo-dl {
