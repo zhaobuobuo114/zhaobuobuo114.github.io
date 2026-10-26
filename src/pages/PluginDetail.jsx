@@ -1,13 +1,36 @@
+import { motion } from 'framer-motion'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, Download, Github, Terminal, User } from 'lucide-react'
 import { getPlugin } from '../data/plugins.js'
 import { useApp } from '../store.jsx'
 
+const EASE_OUT = [0.22, 1, 0.36, 1]
+
 /* 插件详情：卡片标题点进来后的完整说明页 */
 export default function PluginDetail() {
   const { slug } = useParams()
-  const { t, pick, lang } = useApp()
+  const { t, pick, lang, staticMode } = useApp()
   const plugin = getPlugin(slug)
+
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: staticMode ? 0 : 0.06,
+        delayChildren: staticMode ? 0 : 0.42
+      }
+    }
+  }
+
+  const item = {
+    hidden: staticMode ? {} : { opacity: 0, y: 12, filter: 'blur(6px)' },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: staticMode ? 0 : 0.55, ease: EASE_OUT }
+    }
+  }
 
   if (!plugin) {
     return (
@@ -30,12 +53,19 @@ export default function PluginDetail() {
   return (
     <div className="repo-page">
 
-      <main className="detail-main">
-        <Link to="/plugins" className="detail-back">
-          <ArrowLeft size={13} /> {t('detail.back')}
-        </Link>
+      <motion.main
+        className="detail-main"
+        variants={container}
+        initial={staticMode ? false : 'hidden'}
+        animate="show"
+      >
+        <motion.div variants={item}>
+          <Link to="/plugins" className="detail-back">
+            <ArrowLeft size={13} /> {t('detail.back')}
+          </Link>
+        </motion.div>
 
-        <header className="detail-head glass-card">
+        <motion.header className="detail-head glass-card" variants={item}>
           <div className="detail-head-main">
             <h1 className="detail-title font-display">
               {pick(plugin.gameplay)}
@@ -64,24 +94,26 @@ export default function PluginDetail() {
           <div className="detail-actions">
             <a
               className="btn-primary"
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              title="示例按钮，后续接真实下载地址"
+              href={plugin.download}
+              target="_blank"
+              rel="noreferrer"
+              title={t('plugins.download')}
             >
               <Download size={15} /> {t('plugins.download')}
             </a>
             <a
               className="btn-ghost"
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              title="示例链接，后续填入真实仓库地址"
+              href={plugin.repo}
+              target="_blank"
+              rel="noreferrer"
+              title={plugin.github}
             >
               <Github size={15} /> {t('detail.repo')}
             </a>
           </div>
-        </header>
+        </motion.header>
 
-        <section className="detail-section">
+        <motion.section className="detail-section" variants={item}>
           <h2 className="section-title text-xl">{t('detail.features')}</h2>
           <div className="detail-features">
             {plugin.features.map((f) => (
@@ -94,9 +126,9 @@ export default function PluginDetail() {
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section className="detail-section">
+        <motion.section className="detail-section" variants={item}>
           <h2 className="section-title text-xl">{t('detail.install')}</h2>
           <ol className="detail-steps">
             {pick(plugin.install).map((step, i) => (
@@ -106,9 +138,9 @@ export default function PluginDetail() {
               </li>
             ))}
           </ol>
-        </section>
+        </motion.section>
 
-        <section className="detail-section">
+        <motion.section className="detail-section" variants={item}>
           <h2 className="section-title text-xl">{t('detail.commands')}</h2>
           <div className="glass detail-table-wrap">
             <table className="detail-table">
@@ -130,9 +162,9 @@ export default function PluginDetail() {
               </tbody>
             </table>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="detail-section">
+        <motion.section className="detail-section" variants={item}>
           <h2 className="section-title text-xl">{t('detail.config')}</h2>
           <div className="glass detail-config">
             <div className="detail-config-bar">
@@ -142,8 +174,8 @@ export default function PluginDetail() {
               <code>{plugin.config}</code>
             </pre>
           </div>
-        </section>
-      </main>
+        </motion.section>
+      </motion.main>
 
       <footer className="site-footer text-center text-[11px] tracking-wide" style={{ color: 'var(--c-muted)' }}>
         © {new Date().getFullYear()} ZHBOWiki

@@ -1,467 +1,184 @@
-/* 插件仓库示例数据
+/* 插件仓库数据
    字段说明：
    - gameplay  卡片大标题（玩法），卡片名以「玩法（插件名）」呈现
-   - desc      卡片第二行小字，具体玩法介绍
-   - server    服务端标签，Paper / Fabric 可同时存在
+   - tagline   一句话定位，详情页标题下方展示
+   - desc      卡片第二行与详情页简介，卡片最多显示两行
+   - server    服务端标签，Spigot / Paper / Fabric 可同时存在
    - mc        游戏版本，永远作为卡片第一个标签
-   - tags      类型标签，一眼看出插件属于什么类型
-   - github    展示用的仓库地址；示例阶段点击为占位
-   - downloads 纯数字，便于排序与格式化 */
+   - versions  支持版本筛选值，按筛选项填写（如 1.12.x）
+   - attribute 插件属性（本体插件 / 前置插件）
+   - types     插件类型（中文 key，按 Spigot 分类）
+   - requires  必需前置插件名称数组；空数组表示无前置
+   - tags      类型标签；中文标签同时作为筛选 key
+   - github    展示用仓库地址
+   - repo      GitHub 仓库完整地址
+   - download  插件下载直链（Release jar）
+   - downloads 下载量，用于排序与格式化 */
 
 export const plugins = [
   {
-    slug: 'cobbledex',
-    name: 'CobbleDex',
-    gameplay: { zh: '图鉴收集', en: 'Dex Collection' },
+    slug: 'ZHBO_plugin_QianDao_1.1.4',
+    name: 'ZHBO_plugin_QianDao_1.1.4',
+    gameplay: {
+      zh: '每日签到 · 七日周期奖励系统',
+      en: 'Daily Check-in · 7-Day Reward System'
+    },
     tagline: {
-      zh: '把图鉴进度变成一条看得见的路',
-      en: 'Turn dex progress into a visible path'
+      zh: '开箱即用的 1.12.2 图形化签到系统，七天一周期奖励 + 补签卡 + 排行榜 + 经济插件联动。',
+      en: 'A ready-to-use 1.12.2 GUI check-in system with 7-day reward cycles, make-up cards, rankings and economy hooks.'
     },
     desc: {
-      zh: '捕捉即记录，按世代、属性、生态分区展示进度；阶段奖励自动发放，不再靠管理员手动统计。',
-      en: 'Records every catch, shows progress by generation, type and biome, and rewards milestones automatically.'
+      zh: '玩家通过 /qd 打开签到面板领取每日奖励；7 天一个周期，第 7 天终极大奖，支持补签卡、排行榜与三种经济联动。',
+      en: 'Players run /qd to claim daily rewards in a GUI. 7-day cycles with a grand prize on day 7, plus make-up cards, rankings and three economy hooks.'
     },
-    server: ['Paper'],
-    mc: '1.20.1 – 1.21.1',
-    version: '2.3.1',
+    server: ['Spigot', 'Paper'],
+    mc: '1.12.2',
+    versions: ['1.12.x'],
+    version: '1.1.4',
     status: 'stable',
-    downloads: 18400,
-    updated: '2026-10-18',
-    author: 'ZHBO',
-    github: 'github.com/zhbo/cobbledex',
-    repo: 'https://github.com/zhbo/cobbledex',
+    downloads: 0,
+    updated: '2026-10-21',
+    author: 'zhaobuobuo',
+    github: 'github.com/zhaobuobuo114/ZHBO_plugin_QianDao_1.1.4',
+    repo: 'https://github.com/zhaobuobuo114/ZHBO_plugin_QianDao_1.1.4',
+    download:
+      'https://github.com/zhaobuobuo114/ZHBO_plugin_QianDao_1.1.4/releases/download/v1.1.4/ZHBO-plugin_QianDao_1.1.4.jar',
     tags: {
-      zh: ['图鉴', '捕捉', '排行榜', '奖励'],
-      en: ['Dex', 'Catch', 'Leaderboard', 'Rewards']
+      zh: ['签到', '补签卡', '排行榜', '经济联动', '全配置化'],
+      en: ['Check-in', 'Make-up', 'Leaderboard', 'Economy', 'Configurable']
     },
+    attribute: '本体插件',
+    types: ['娱乐'],
+    requires: [],
     features: [
       {
-        title: { zh: '捕捉即记录', en: 'Logged on catch' },
+        title: { zh: '七日周期奖励', en: '7-day reward cycle' },
         text: {
-          zh: '监听 Cobblemon 捕捉事件并写入 SQLite / MySQL，不依赖 NBT 扫描。',
-          en: 'Hooks Cobblemon catch events into SQLite or MySQL instead of scanning NBT.'
+          zh: '第 1~7 天奖励逐天递增，第 7 天发放终极大奖；第 8 天回到第 1 天，连续天数继续累计，断签后才归零重算。',
+          en: 'Rewards ramp up from day 1 to day 7 with the grand prize on day 7; day 8 loops back to day 1 while the streak keeps counting.'
         }
       },
       {
-        title: { zh: '分区进度', en: 'Segmented progress' },
+        title: { zh: '补签卡系统', en: 'Make-up cards' },
         text: {
-          zh: '按世代、属性、生态三个维度切分，玩家能看清还差哪一片。',
-          en: 'Splits progress by generation, type and biome so players see what is missing.'
+          zh: '右键补签卡打开补签面板，可补最近 3 天内的漏签日期；二次确认消耗 1 张，补签后连续天数恢复，另支持在线时长自动发卡。',
+          en: 'Right-click a card to recover a recent missed date within 3 days. One card is consumed after confirmation and the streak is restored; cards also drop from playtime.'
         }
       },
       {
-        title: { zh: '阶段奖励', en: 'Milestone rewards' },
+        title: { zh: '排行榜与经济联动', en: 'Rankings and economy' },
         text: {
-          zh: '25% / 50% / 75% / 100% 四档自动发放，指令、物品、点券都能配。',
-          en: 'Auto rewards at 25% / 50% / 75% / 100%, configurable per milestone.'
+          zh: '屏幕右侧计分板实时显示前 10 名，/qd rank 打开图形化排行榜；金币支持 ZPoints、PlayerPoints、Vault，未安装时自动跳过。',
+          en: 'A live top-10 sidebar plus a /qd rank GUI. Coins work with ZPoints, PlayerPoints or Vault, and are skipped automatically when the plugin is absent.'
         }
       },
       {
-        title: { zh: '全服排行', en: 'Server leaderboard' },
+        title: { zh: '全配置化', en: 'Fully configurable' },
         text: {
-          zh: '按图鉴完成度排行，支持计分板与网页接口。',
-          en: 'Ranks players by dex completion with scoreboard and web API support.'
+          zh: '奖励物品、金币数量、提示文本、音效、粒子与刷新时间都在 config.yml 中；奖励以控制台指令发放，可接入任意插件。',
+          en: 'Items, coin amounts, messages, sounds, particles and refresh times all live in config.yml; rewards run as console commands so any plugin can be wired in.'
         }
       }
     ],
     install: {
       zh: [
-        '把 CobbleDex-2.3.1.jar 放进 plugins/ 并重启服务端',
-        '首次启动生成 config.yml 与 database.db',
-        '在 config.yml 里选择存储方式（sqlite / mysql）',
-        '执行 /dex reload 校验配置'
+        '下载 ZHBO-plugin_QianDao_1.1.4.jar，放入服务端 plugins/ 目录',
+        '启动服务器，自动生成 plugins/ZHBO_plugin_QianDao_1.1.4/config.yml',
+        '按需修改 config.yml 中的周期奖励、金币、刷新时间与音效',
+        '执行 /qd reload 或重启服务器使配置生效',
+        '如需金币奖励，安装 ZPoints / PlayerPoints / Vault 之一，并设置 economy.type',
+        '玩家执行 /qd 打开签到面板'
       ],
       en: [
-        'Drop CobbleDex-2.3.1.jar into plugins/ and restart the server',
-        'First boot creates config.yml and database.db',
-        'Choose sqlite or mysql storage in config.yml',
-        'Run /dex reload to verify the setup'
+        'Download ZHBO-plugin_QianDao_1.1.4.jar and place it in the server plugins/ folder',
+        'Start the server to generate plugins/ZHBO_plugin_QianDao_1.1.4/config.yml',
+        'Edit cycle rewards, coins, refresh times and sounds in config.yml',
+        'Run /qd reload or restart the server to apply the configuration',
+        'For coin rewards, install ZPoints, PlayerPoints or Vault and set economy.type',
+        'Players run /qd to open the check-in panel'
       ]
     },
     commands: [
       {
-        cmd: '/dex',
-        desc: { zh: '打开自己的图鉴面板', en: 'Open your dex panel' },
-        perm: 'cobbledex.use'
+        cmd: '/qd',
+        desc: {
+          zh: '打开签到面板（别名 /qiandao、/sign）',
+          en: 'Open the check-in panel (aliases /qiandao, /sign)'
+        },
+        perm: 'qiandao.use'
       },
       {
-        cmd: '/dex top',
-        desc: { zh: '查看完成度排行', en: 'Show completion leaderboard' },
-        perm: 'cobbledex.use'
+        cmd: '/qd rank',
+        desc: { zh: '打开签到排行榜', en: 'Open the check-in ranking GUI' },
+        perm: 'qiandao.use'
       },
       {
-        cmd: '/dex reload',
-        desc: { zh: '重载配置', en: 'Reload configuration' },
-        perm: 'cobbledex.admin'
+        cmd: '/qd help',
+        desc: { zh: '查看帮助（管理员显示全部）', en: 'Show help (admins see all commands)' },
+        perm: 'qiandao.use'
+      },
+      {
+        cmd: '/qd givecard <玩家> [数量]',
+        desc: { zh: '发放补签卡，数量 1~2304', en: 'Give make-up cards, amount 1-2304' },
+        perm: 'qiandao.admin'
+      },
+      {
+        cmd: '/qd reload',
+        desc: { zh: '重载配置文件', en: 'Reload the configuration' },
+        perm: 'qiandao.admin'
       }
     ],
-    config: `storage: sqlite          # sqlite | mysql
+    config: `general:
+  timezone: "Asia/Shanghai"
+  refresh-hour: 4
+  refresh-minute: 0
+  auto-save-seconds: 300
+
+cycle:
+  1:
+    icon: "WOOD"
+    name: "&f第1天"
+    display: ["&7铁锭 x5"]
+    commands: ["give %player% iron_ingot 5"]
+  7:
+    icon: "SKULL_ITEM"
+    icon-data: 5
+    name: "&6第7天 &e&l★终极大奖★"
+    display:
+      - "&7钻石 x16"
+      - "&7绿宝石 x10"
+    commands:
+      - "give %player% diamond 16"
+      - "give %player% emerald 10"
+
 milestones:
-  25:  ["give %player% poke_ball 32"]
-  50:  ["points give %player% 500"]
-  75:  ["give %player% rare_candy 10"]
-  100: ["crate key %player% dex 1"]
-leaderboard:
+  7:
+    commands: ["give %player% gold_ingot 8"]
+    broadcast: "&e[签到] &6%player% &e已连续签到 &6&l7天!"
+
+buqian:
   enabled: true
-  refresh-seconds: 120`
-  },
-  {
-    slug: 'shinyalert',
-    name: 'ShinyAlert',
-    gameplay: { zh: '闪光播报', en: 'Shiny Alerts' },
-    tagline: {
-      zh: '闪光出现的那一秒，全服都该知道',
-      en: 'When a shiny appears, everyone should know'
-    },
-    desc: {
-      zh: '闪光宝可梦出现 / 捕捉双向播报，带 IV 展示、冷却防刷屏与 Discord Webhook 推送。',
-      en: 'Shiny spawn and catch broadcasts with IV display, cooldowns and Discord webhook delivery.'
-    },
-    server: ['Paper', 'Fabric'],
-    mc: '1.20.1 – 1.21.1',
-    version: '1.9.0',
-    status: 'stable',
-    downloads: 26100,
-    updated: '2026-10-20',
-    author: 'ZHBO',
-    github: 'github.com/zhbo/shinyalert',
-    repo: 'https://github.com/zhbo/shinyalert',
-    tags: {
-      zh: ['闪光', '播报', 'Webhook', '社交'],
-      en: ['Shiny', 'Broadcast', 'Webhook', 'Social']
-    },
-    features: [
-      {
-        title: { zh: '双时机播报', en: 'Two trigger points' },
-        text: {
-          zh: '出现时一条、被捕捉时一条，可分别开关。',
-          en: 'One broadcast on spawn and one on catch, each toggleable.'
-        }
-      },
-      {
-        title: { zh: 'IV 与性格', en: 'IV and nature' },
-        text: {
-          zh: '播报里带个体值区间与性格，刷屏也能看出价值。',
-          en: 'Shows IV ranges and nature so players can judge the catch at a glance.'
-        }
-      },
-      {
-        title: { zh: 'Discord 推送', en: 'Discord webhook' },
-        text: {
-          zh: 'Webhook 支持嵌入卡片与缩略图。',
-          en: 'Webhook supports embed cards and thumbnails.'
-        }
-      },
-      {
-        title: { zh: '防刷屏', en: 'Anti-spam' },
-        text: {
-          zh: '按玩家 / 按物种设置冷却，连续闪光只播一次。',
-          en: 'Per-player and per-species cooldowns collapse back-to-back shinies.'
-        }
-      }
-    ],
-    install: {
-      zh: [
-        '放入 plugins/ 后重启，生成 config.yml',
-        '填写 webhook.url（可留空只用游戏内播报）',
-        '按需调整 cooldown 与 iv-range',
-        '执行 /shiny test 预览播报格式'
-      ],
-      en: [
-        'Drop into plugins/ and restart to generate config.yml',
-        'Fill in webhook.url (leave empty for in-game only)',
-        'Tune cooldown and iv-range as needed',
-        'Run /shiny test to preview the broadcast'
-      ]
-    },
-    commands: [
-      {
-        cmd: '/shiny test',
-        desc: { zh: '发送一条测试播报', en: 'Send a test broadcast' },
-        perm: 'shinyalert.admin'
-      },
-      {
-        cmd: '/shiny reload',
-        desc: { zh: '重载配置', en: 'Reload configuration' },
-        perm: 'shinyalert.admin'
-      },
-      {
-        cmd: '/shiny mute',
-        desc: { zh: '个人屏蔽播报', en: 'Mute broadcasts for yourself' },
-        perm: 'shinyalert.use'
-      }
-    ],
-    config: `broadcast:
-  on-spawn: true
-  on-catch: true
-  cooldown-seconds: 30
-  show-iv: true
-discord:
+  max-days: 3
+  give-cycle-reward: true
+
+economy:
+  type: "zpoints"          # none | zpoints | playerpoints | vault
+  cycle-gold: [10, 12, 15, 18, 20, 25, 50]
+  streak-bonus:
+    7: 50
+    14: 100
+    30: 300
+  buqian-gold: false
+
+online-reward:
   enabled: true
-  url: "https://discord.com/api/webhooks/..."
-  mention-everyone: false`
-  },
-  {
-    slug: 'raidcaller',
-    name: 'RaidCaller',
-    gameplay: { zh: '团战召集', en: 'Raid Assembly' },
-    tagline: {
-      zh: '把散人凑成一支能打的队',
-      en: 'Turn strangers into a raid team'
-    },
-    desc: {
-      zh: '极巨团战一键召集：全服弹窗报名、人数校验、倒计时自动开局，打完自动结算。',
-      en: 'One-command raid assembly with sign-up, size checks, countdown and automatic payout.'
-    },
-    server: ['Paper'],
-    mc: '1.20.1 – 1.21.1',
-    version: '1.4.2',
-    status: 'beta',
-    downloads: 7200,
-    updated: '2026-10-16',
-    author: 'ZHBO',
-    github: 'github.com/zhbo/raidcaller',
-    repo: 'https://github.com/zhbo/raidcaller',
-    tags: {
-      zh: ['团战', '组队', '倒计时', 'PVE'],
-      en: ['Raid', 'Team', 'Countdown', 'PvE']
-    },
-    features: [
-      {
-        title: { zh: '一键召集', en: 'One-command call' },
-        text: {
-          zh: '发起后全服弹窗，点击即可报名，无需加群。',
-          en: 'A server-wide prompt lets players join with one click.'
-        }
-      },
-      {
-        title: { zh: '人数校验', en: 'Size check' },
-        text: {
-          zh: '低于最小人数自动取消，避免开局即失败。',
-          en: 'Cancels automatically below the minimum player count.'
-        }
-      },
-      {
-        title: { zh: '自动开局', en: 'Auto start' },
-        text: {
-          zh: '倒计时结束自动传送到战场并生成巢穴。',
-          en: 'Teleports the team and spawns the den when the countdown ends.'
-        }
-      },
-      {
-        title: { zh: '结算面板', en: 'Result panel' },
-        text: {
-          zh: '战斗结束展示伤害、捕捉与掉落。',
-          en: 'Shows damage, catches and drops after the raid.'
-        }
-      }
-    ],
-    install: {
-      zh: [
-        '安装 Paper 1.20.1+ 与 Cobblemon 1.6+',
-        '放入 jar，重启生成 raids.yml',
-        '在 raids.yml 配置巢穴坐标与奖励表',
-        '执行 /raid reload 校验'
-      ],
-      en: [
-        'Requires Paper 1.20.1+ and Cobblemon 1.6+',
-        'Drop the jar in and restart to generate raids.yml',
-        'Set den coordinates and rewards in raids.yml',
-        'Run /raid reload to verify'
-      ]
-    },
-    commands: [
-      {
-        cmd: '/raid start <species>',
-        desc: { zh: '发起一场团战', en: 'Start a raid' },
-        perm: 'raidcaller.start'
-      },
-      {
-        cmd: '/raid join',
-        desc: { zh: '报名当前团战', en: 'Join the current raid' },
-        perm: 'raidcaller.use'
-      },
-      {
-        cmd: '/raid reload',
-        desc: { zh: '重载配置', en: 'Reload configuration' },
-        perm: 'raidcaller.admin'
-      }
-    ],
-    config: `min-players: 4
-countdown-seconds: 60
-teleport-on-start: true
-rewards:
-  win: ["give %player% rare_candy 5"]
-  catch: ["points give %player% 300"]`
-  },
-  {
-    slug: 'evtrainer',
-    name: 'EVTrainer',
-    gameplay: { zh: '努力值训练', en: 'EV Training' },
-    tagline: {
-      zh: '努力值不该靠刷野外',
-      en: 'EVs should not mean grinding the wild'
-    },
-    desc: {
-      zh: '在训练场里按属性刷努力值，设置上限与衰减，配速面板实时显示每分钟收益。',
-      en: 'Train EVs by stat in dedicated zones, with caps, decay and a live pace meter.'
-    },
-    server: ['Fabric'],
-    mc: '1.20.1',
-    version: '0.8.5',
-    status: 'beta',
-    downloads: 4600,
-    updated: '2026-10-11',
-    author: 'ZHBO',
-    github: 'github.com/zhbo/evtrainer',
-    repo: 'https://github.com/zhbo/evtrainer',
-    tags: {
-      zh: ['努力值', '训练场', '平衡'],
-      en: ['EV', 'Training', 'Balance']
-    },
-    features: [
-      {
-        title: { zh: '属性训练区', en: 'Stat zones' },
-        text: {
-          zh: '六个属性各一块区域，进入即开始计时计点。',
-          en: 'Six stat zones that start tracking the moment you enter.'
-        }
-      },
-      {
-        title: { zh: '上限与衰减', en: 'Caps and decay' },
-        text: {
-          zh: '单属性 252、总和 510，可配每日衰减防止挂机。',
-          en: '252 per stat, 510 total, with optional daily decay against AFK farming.'
-        }
-      },
-      {
-        title: { zh: '配速面板', en: 'Pace panel' },
-        text: {
-          zh: '实时显示每分钟获得量与预计完成时间。',
-          en: 'Shows points per minute and estimated time to completion.'
-        }
-      }
-    ],
-    install: {
-      zh: [
-        '客户端与服务端都放入 Fabric 模组',
-        '在 config/evtrainer.json 里定义训练区坐标',
-        '重启后使用 /evtp <stat> 进入训练区'
-      ],
-      en: [
-        'Install the Fabric mod on both client and server',
-        'Define training zone coordinates in config/evtrainer.json',
-        'Restart and use /evtp <stat> to enter a zone'
-      ]
-    },
-    commands: [
-      {
-        cmd: '/evtp <stat>',
-        desc: { zh: '传送到对应训练区', en: 'Teleport to a stat zone' },
-        perm: 'evtrainer.use'
-      },
-      {
-        cmd: '/ev reset',
-        desc: { zh: '清空当前努力值', en: 'Reset current EVs' },
-        perm: 'evtrainer.use'
-      },
-      {
-        cmd: '/ev reload',
-        desc: { zh: '重载配置', en: 'Reload configuration' },
-        perm: 'evtrainer.admin'
-      }
-    ],
-    config: `{
-  "capPerStat": 252,
-  "capTotal": 510,
-  "pointsPerMinute": 6,
-  "decayPerDay": 0,
-  "zones": { "speed": [128, 64, -320] }
-}`
-  },
-  {
-    slug: 'ballforge',
-    name: 'BallForge',
-    gameplay: { zh: '精灵球合成', en: 'Ball Crafting' },
-    tagline: {
-      zh: '让精灵球回到经济循环里',
-      en: 'Put Poké Balls back into the economy'
-    },
-    desc: {
-      zh: '自定义合成表、工厂产出与限购，球种按图鉴进度解锁，避免前期通货膨胀。',
-      en: 'Custom recipes, factory output and purchase limits, with ball tiers unlocked by progress.'
-    },
-    server: ['Paper'],
-    mc: '1.20.1 – 1.21.1',
-    version: '3.0.0',
-    status: 'stable',
-    downloads: 12800,
-    updated: '2026-10-09',
-    author: 'ZHBO',
-    github: 'github.com/zhbo/ballforge',
-    repo: 'https://github.com/zhbo/ballforge',
-    tags: {
-      zh: ['经济', '合成', '精灵球'],
-      en: ['Economy', 'Crafting', 'Poké Ball']
-    },
-    features: [
-      {
-        title: { zh: '配方可视化', en: 'Visual recipes' },
-        text: {
-          zh: '游戏内 GUI 编辑合成表，保存即生效。',
-          en: 'Edit recipes in an in-game GUI, applied on save.'
-        }
-      },
-      {
-        title: { zh: '进度解锁', en: 'Progress unlock' },
-        text: {
-          zh: '按图鉴完成度或权限解锁高级球。',
-          en: 'Unlock advanced balls by dex completion or permission.'
-        }
-      },
-      {
-        title: { zh: '限购与冷却', en: 'Limits and cooldowns' },
-        text: {
-          zh: '每人每日上限，防止脚本刷球。',
-          en: 'Per-player daily caps keep scripts from farming balls.'
-        }
-      }
-    ],
-    install: {
-      zh: [
-        '放入 plugins/ 并安装 Vault（可选）',
-        '在 recipes.yml 定义配方或使用 GUI 编辑',
-        '执行 /ballforge reload 生效'
-      ],
-      en: [
-        'Drop into plugins/ and install Vault (optional)',
-        'Define recipes in recipes.yml or use the GUI editor',
-        'Run /ballforge reload to apply'
-      ]
-    },
-    commands: [
-      {
-        cmd: '/ballforge',
-        desc: { zh: '打开合成界面', en: 'Open the crafting GUI' },
-        perm: 'ballforge.use'
-      },
-      {
-        cmd: '/ballforge edit',
-        desc: { zh: '编辑配方', en: 'Edit recipes' },
-        perm: 'ballforge.admin'
-      },
-      {
-        cmd: '/ballforge reload',
-        desc: { zh: '重载配置', en: 'Reload configuration' },
-        perm: 'ballforge.admin'
-      }
-    ],
-    config: `economy: vault
-daily-limit:
-  poke_ball: 64
-  ultra_ball: 16
-unlock:
-  ultra_ball: "dex>=50"`
+  interval-minutes: 60
+  daily-max: 1
+
+ranking:
+  scoreboard-enable: true
+  scoreboard-title: "&6&l签到排行榜"
+  amount: 10`
   }
 ]
 

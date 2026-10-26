@@ -7,7 +7,54 @@ import { useLiquidLight } from '../hooks/useLiquidLight.js'
 import { plugins } from '../data/plugins.js'
 import { useApp } from '../store.jsx'
 
-const SERVERS = ['all', 'Paper', 'Fabric']
+/* 筛选选项与需求图一致；数组顺序按两列逐行排列 */
+const SERVERS = [
+  'Cauldron', 'CraftBukkit',
+  'Spigot', 'Sponge',
+  'BungeeCord', 'Nukkit',
+  'PocketMine-MP', 'LeviLamina(原',
+  'BDSX', 'Endstone',
+  'PowerNukkitX', 'CloudburstNukkit',
+  'Dragonfly', 'Velocity',
+  'Paper', '其它'
+]
+
+const VERSIONS = [
+  '1.6.x', '1.7.x',
+  '1.8.x', '1.9.x',
+  '1.10.x', '1.11.x',
+  '1.12.x', '1.13.x',
+  '1.14.x', '1.15.x',
+  '1.16.x', '1.17.x',
+  '1.18.x', '1.19.x',
+  '1.20.x', '1.21.x',
+  '26.x'
+]
+
+const ATTRIBUTES = [
+  { key: '本体插件', zh: '本体插件', en: 'Base plugin' },
+  { key: '前置插件', zh: '前置插件', en: 'Dependency' }
+]
+
+const TYPES = [
+  { key: '管理', zh: '管理', en: 'Management' },
+  { key: '安全', zh: '安全', en: 'Security' },
+  { key: '聊天', zh: '聊天', en: 'Chat' },
+  { key: '编程', zh: '编程', en: 'Programming' },
+  { key: '经济', zh: '经济', en: 'Economy' },
+  { key: '圈地', zh: '圈地', en: 'Land claim' },
+  { key: '修正', zh: '修正', en: 'Fixes' },
+  { key: '娱乐', zh: '娱乐', en: 'Fun' },
+  { key: '综合', zh: '综合', en: 'Misc' },
+  { key: '信息', zh: '信息', en: 'Information' },
+  { key: '传送', zh: '传送', en: 'Teleport' },
+  { key: '机械', zh: '机械', en: 'Mechanics' },
+  { key: '网页', zh: '网页', en: 'Web' },
+  { key: '创世', zh: '创世', en: 'Worldgen' },
+  { key: '角色', zh: '角色', en: 'Roles' },
+  { key: '其他', zh: '其他', en: 'Other' }
+]
+
 const SORTS = ['updated', 'downloads']
 const EASE_OUT = [0.22, 1, 0.36, 1]
 
@@ -17,6 +64,10 @@ export default function Plugins() {
   const { t, pick, lang, staticMode } = useApp()
   const [q, setQ] = useState('')
   const [server, setServer] = useState('all')
+  const [versionKeys, setVersionKeys] = useState([])
+  const [attributeKeys, setAttributeKeys] = useState([])
+  const [typeKeys, setTypeKeys] = useState([])
+  const [prereq, setPrereq] = useState('')
   const [sort, setSort] = useState('updated')
   const [tagKeys, setTagKeys] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
@@ -82,9 +133,23 @@ export default function Plugins() {
           .toLowerCase()
           .includes(key)
       const matchS = server === 'all' || p.server.includes(server)
+      const matchV =
+        versionKeys.length === 0 ||
+        (p.versions || []).some((v) => versionKeys.includes(v))
+      const matchA =
+        attributeKeys.length === 0 || attributeKeys.includes(p.attribute)
+      const matchTy =
+        typeKeys.length === 0 ||
+        (p.types || []).some((type) => typeKeys.includes(type))
+      const need = prereq.trim().toLowerCase()
+      const matchP =
+        !need ||
+        (need === '无前置' || need === t('plugins.noPrereq').toLowerCase()
+          ? (p.requires || []).length === 0
+          : (p.requires || []).some((r) => r.toLowerCase().includes(need)))
       const matchT =
         tagKeys.length === 0 || (p.tags?.zh || []).some((tag) => tagKeys.includes(tag))
-      return matchQ && matchS && matchT
+      return matchQ && matchS && matchV && matchA && matchTy && matchP && matchT
     })
 
     return [...filtered].sort((a, b) =>
@@ -94,9 +159,16 @@ export default function Plugins() {
           ? 1
           : -1
     )
-  }, [q, server, sort, tagKeys, pick])
+  }, [q, server, versionKeys, attributeKeys, typeKeys, prereq, sort, tagKeys, pick, t])
 
-  const filterActive = server !== 'all' || sort !== 'updated' || tagKeys.length > 0
+  const filterActive =
+    server !== 'all' ||
+    sort !== 'updated' ||
+    tagKeys.length > 0 ||
+    versionKeys.length > 0 ||
+    attributeKeys.length > 0 ||
+    typeKeys.length > 0 ||
+    prereq.trim() !== ''
 
   /* 左栏插件名：滚到对应卡片并高亮一下，作为页内快捷入口 */
   const jump = (slug) => {
@@ -115,8 +187,30 @@ export default function Plugins() {
     )
   }
 
+  const toggleVersion = (key) => {
+    setVersionKeys((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    )
+  }
+
+  const toggleAttribute = (key) => {
+    setAttributeKeys((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    )
+  }
+
+  const toggleType = (key) => {
+    setTypeKeys((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    )
+  }
+
   const reset = () => {
     setServer('all')
+    setVersionKeys([])
+    setAttributeKeys([])
+    setTypeKeys([])
+    setPrereq('')
     setSort('updated')
     setTagKeys([])
   }
@@ -180,9 +274,44 @@ export default function Plugins() {
               <div className="repo-filter">
                 <div>
                   <p className="repo-filter-label">
+                    <LangSwap>{t('plugins.versions')}</LangSwap>
+                  </p>
+                  <div className="repo-filter-group" data-cols="2">
+                    <button
+                      type="button"
+                      className="repo-filter-chip repo-filter-chip-all"
+                      data-on={versionKeys.length === 0 ? '1' : '0'}
+                      onClick={() => setVersionKeys([])}
+                    >
+                      <LangSwap>{t('plugins.all')}</LangSwap>
+                    </button>
+                    {VERSIONS.map((v) => (
+                      <button
+                        key={v}
+                        type="button"
+                        className="repo-filter-chip"
+                        data-on={versionKeys.includes(v) ? '1' : '0'}
+                        onClick={() => toggleVersion(v)}
+                      >
+                        <LangSwap>{v}</LangSwap>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="repo-filter-block">
+                  <p className="repo-filter-label">
                     <LangSwap>{t('plugins.server')}</LangSwap>
                   </p>
-                  <div className="repo-filter-group">
+                  <div className="repo-filter-group" data-cols="2">
+                    <button
+                      type="button"
+                      className="repo-filter-chip repo-filter-chip-all"
+                      data-on={server === 'all' ? '1' : '0'}
+                      onClick={() => setServer('all')}
+                    >
+                      <LangSwap>{t('plugins.all')}</LangSwap>
+                    </button>
                     {SERVERS.map((s) => (
                       <button
                         key={s}
@@ -191,10 +320,80 @@ export default function Plugins() {
                         data-on={server === s ? '1' : '0'}
                         onClick={() => setServer(s)}
                       >
-                        <LangSwap>{s === 'all' ? t('plugins.all') : s}</LangSwap>
+                        <LangSwap>{s === '其它' ? t('plugins.other') : s}</LangSwap>
                       </button>
                     ))}
                   </div>
+                </div>
+
+                <div className="repo-filter-block">
+                  <p className="repo-filter-label">
+                    <LangSwap>{t('plugins.attribute')}</LangSwap>
+                  </p>
+                  <div className="repo-filter-group" data-cols="2">
+                    <button
+                      type="button"
+                      className="repo-filter-chip repo-filter-chip-all"
+                      data-on={attributeKeys.length === 0 ? '1' : '0'}
+                      onClick={() => setAttributeKeys([])}
+                    >
+                      <LangSwap>{t('plugins.all')}</LangSwap>
+                    </button>
+                    {ATTRIBUTES.map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        className="repo-filter-chip"
+                        data-on={attributeKeys.includes(item.key) ? '1' : '0'}
+                        onClick={() => toggleAttribute(item.key)}
+                      >
+                        <LangSwap>{lang === 'zh' ? item.zh : item.en}</LangSwap>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="repo-filter-block">
+                  <p className="repo-filter-label">
+                    <LangSwap>{t('plugins.types')}</LangSwap>
+                  </p>
+                  <div className="repo-filter-group" data-cols="2">
+                    <button
+                      type="button"
+                      className="repo-filter-chip repo-filter-chip-all"
+                      data-on={typeKeys.length === 0 ? '1' : '0'}
+                      onClick={() => setTypeKeys([])}
+                    >
+                      <LangSwap>{t('plugins.all')}</LangSwap>
+                    </button>
+                    {TYPES.map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        className="repo-filter-chip"
+                        data-on={typeKeys.includes(item.key) ? '1' : '0'}
+                        onClick={() => toggleType(item.key)}
+                      >
+                        <LangSwap>{lang === 'zh' ? item.zh : item.en}</LangSwap>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="repo-filter-note">
+                    <LangSwap>{t('plugins.typeNote')}</LangSwap>
+                  </p>
+                </div>
+
+                <div className="repo-filter-block">
+                  <p className="repo-filter-label">
+                    <LangSwap>{t('plugins.prereq')}</LangSwap>
+                  </p>
+                  <input
+                    className="repo-filter-input"
+                    value={prereq}
+                    onChange={(e) => setPrereq(e.target.value)}
+                    placeholder={t('plugins.noPrereq')}
+                    aria-label={t('plugins.prereq')}
+                  />
                 </div>
 
                 <div className="repo-filter-block">
@@ -245,7 +444,8 @@ export default function Plugins() {
           </div>
 
           <p className="repo-count">
-            {list.length} <LangSwap>{t('plugins.count')}</LangSwap>
+            {list.length}{' '}
+            <LangSwap>{list.length === 1 ? t('plugins.countOne') : t('plugins.count')}</LangSwap>
           </p>
 
           <p className="repo-index-label">

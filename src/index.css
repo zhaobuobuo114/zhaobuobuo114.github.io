@@ -693,6 +693,7 @@ html[data-static='1'] .grid-blocks {
   grid-template-columns: 272px minmax(0, 1fr);
   gap: 30px;
   align-items: start;
+  align-content: start;
   flex: 1 1 auto;
   width: 100%;
   max-width: 1400px;
@@ -893,7 +894,7 @@ html[data-static='1'] .grid-blocks {
   left: 0;
   right: 0;
   z-index: 40;
-  max-height: min(540px, calc(100vh - 120px));
+  max-height: min(680px, calc(100vh - 120px));
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 14px;
@@ -934,6 +935,60 @@ html[data-static='1'] .grid-blocks {
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 8px;
+}
+
+/* 版本 / 服务端：两列紧凑选项，长名称自动省略，避免筛选面板过高 */
+.repo-filter-group[data-cols='2'] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px 6px;
+}
+
+.repo-filter-group[data-cols='2'] .repo-filter-chip {
+  min-width: 0;
+  padding: 5px 8px;
+  border-radius: 7px;
+  font-size: 10.5px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.repo-filter-group[data-cols='2'] .repo-filter-chip-all {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+.repo-filter-note {
+  margin: 6px 0 0;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #5f6b7d;
+}
+
+.repo-filter-input {
+  width: 100%;
+  height: 34px;
+  margin-top: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.04);
+  color: var(--c-text);
+  font-family: inherit;
+  font-size: 11px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.repo-filter-input::placeholder {
+  color: #5f6b7d;
+}
+
+.repo-filter-input:focus {
+  border-color: rgba(34, 211, 238, 0.55);
+  background: rgba(34, 211, 238, 0.06);
 }
 
 .repo-filter-chip {
@@ -1570,7 +1625,8 @@ html[data-static='1'] .grid-blocks {
 
 .detail-table-wrap {
   margin-top: 16px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   border-radius: 14px;
 }
 

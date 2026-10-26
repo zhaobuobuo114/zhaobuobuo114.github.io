@@ -65,13 +65,17 @@ export default function RepoCard({ plugin, flash = false }) {
           <p className="repo-card-desc">{pick(plugin.desc)}</p>
           <a
             className="repo-dl"
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            title="示例按钮，后续接真实下载地址"
+            href={plugin.download}
+            target="_blank"
+            rel="noreferrer"
+            title={t('plugins.download')}
+            aria-label={t('plugins.download')}
           >
             <Download size={14} strokeWidth={2.1} />
             <span>{t('plugins.download')}</span>
-            <span className="repo-dl-count">{formatDownloads(plugin.downloads)}</span>
+            {plugin.downloads > 0 && (
+              <span className="repo-dl-count">{formatDownloads(plugin.downloads)}</span>
+            )}
           </a>
         </div>
 
@@ -92,8 +96,9 @@ export default function RepoCard({ plugin, flash = false }) {
             </span>
             <a
               className="repo-gh"
-              href="#"
-              onClick={(e) => e.preventDefault()}
+              href={plugin.repo}
+              target="_blank"
+              rel="noreferrer"
               title={plugin.github}
               aria-label={`${t('plugins.viewDetail')} · ${plugin.github}`}
             >
