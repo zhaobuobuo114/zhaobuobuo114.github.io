@@ -5,7 +5,7 @@ export const dict = {
       sub: 'Minecraft 服务端插件文档站。用心做好每一个插件，每一次服务。',
       cta: '开始探索'
     },
-    nav: { contact: '联系我们', publish: '发布' },
+    nav: { contact: '联系我们', publish: '发布', contactBack: '再次点击返回' },
     contact: {
       title: '联系我',
       sub: '插件问题、定制合作、功能建议——选一个最方便的方式。',
@@ -80,7 +80,7 @@ export const dict = {
       sub: 'Documentation for Minecraft server plugins. Every plugin, every service — done with care.',
       cta: 'Get Started'
     },
-    nav: { contact: 'Contact', publish: 'Publish' },
+    nav: { contact: 'Contact', publish: 'Publish', contactBack: 'Click again to go back' },
     contact: {
       title: 'Get in touch',
       sub: 'Plugin issues, custom work, or feature ideas — pick whichever is easiest.',

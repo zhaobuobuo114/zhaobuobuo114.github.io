@@ -17,8 +17,9 @@ const LANGS = [
 export function ContactPill() {
   const { t, lang, staticMode } = useApp()
   const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const active = pathname === '/contact'
+  const location = useLocation()
+  const { pathname } = location
+  const active = pathname.replace(/\/+$/, '') === '/contact'
   const { wrapRef, pillRef } = useGlassHover(0)
   const mirrorRef = useRef(null)
   const [pillW, setPillW] = useState(null)
@@ -42,9 +43,20 @@ export function ContactPill() {
         ref={pillRef}
         type="button"
         className="glass-pill lang-pill contact-pill pointer-events-auto relative"
-        aria-label={t('nav.contact')}
+        aria-label={active ? t('nav.contactBack') : t('nav.contact')}
+        title={active ? t('nav.contactBack') : t('nav.contact')}
         onClick={() => {
-          if (!active) navigate('/contact')
+          if (!active) {
+            navigate('/contact', {
+              state: { from: location.pathname + location.search + location.hash }
+            })
+            return
+          }
+          if (location.state?.from) {
+            navigate(-1)
+          } else {
+            navigate('/')
+          }
         }}
         data-active={active ? '1' : '0'}
         aria-current={active ? 'page' : undefined}

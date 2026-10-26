@@ -481,7 +481,8 @@ html[data-static='1'] *::after {
 .contact-pill {
   cursor: pointer;
   color: var(--c-muted);
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease,
+    box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .contact-pill:hover {
   color: var(--c-text);
@@ -2119,17 +2120,23 @@ html[data-static='1'] .grid-blocks {
   background: rgba(34, 211, 238, 0.12);
   color: #a8f3ff;
 }
-/* 顶栏联系我们胶囊：当前页高亮（外观不变，只换色） */
+/* 顶栏联系我们胶囊：当前页高亮为填充式青蓝色 + 柔光 */
 .contact-pill[data-active='1'] {
-  color: var(--c-cyan);
-  border-color: rgba(34, 211, 238, 0.42);
-  background: rgba(34, 211, 238, 0.08);
+  color: #d9f9ff;
+  border-color: rgba(34, 211, 238, 0.65);
+  background: rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.22),
+    0 0 24px -6px rgba(34, 211, 238, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
 
 .contact-pill[data-active='1']:hover {
-  color: #a8f3ff;
-  border-color: rgba(34, 211, 238, 0.62);
-  background: rgba(34, 211, 238, 0.14);
+  color: #f2feff;
+  border-color: rgba(34, 211, 238, 0.85);
+  background: rgba(34, 211, 238, 0.28);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.3),
+    0 0 30px -4px rgba(34, 211, 238, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* 复制提示 */
