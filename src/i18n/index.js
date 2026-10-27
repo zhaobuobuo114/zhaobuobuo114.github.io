@@ -69,6 +69,9 @@ export const dict = {
     detail: {
       back: '返回插件仓库',
       features: '功能特性',
+      prereqs: '前置插件',
+      hardPrereq: '硬前置',
+      softPrereq: '软前置',
       install: '安装步骤',
       commands: '指令',
       config: '配置示例',
@@ -158,6 +161,9 @@ export const dict = {
     detail: {
       back: 'Back to library',
       features: 'Features',
+      prereqs: 'Dependencies',
+      hardPrereq: 'Hard dependencies',
+      softPrereq: 'Soft dependencies',
       install: 'Installation',
       commands: 'Commands',
       config: 'Config example',

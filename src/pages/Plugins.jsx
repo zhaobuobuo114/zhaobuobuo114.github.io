@@ -162,9 +162,11 @@ export default function Plugins() {
     return [...filtered].sort((a, b) =>
       sort === 'downloads'
         ? b.downloads - a.downloads
-        : a.updated < b.updated
-          ? 1
-          : -1
+        : a.updated === b.updated
+          ? 0
+          : a.updated < b.updated
+            ? 1
+            : -1
     )
   }, [q, server, versionKeys, attributeKeys, typeKeys, prereq, pricing, sort, tagKeys, pick, t])
 

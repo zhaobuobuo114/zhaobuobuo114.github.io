@@ -10,6 +10,7 @@
    - paid      是否付费，true 付费 / false 免费
    - types     插件类型（中文 key，按 Spigot 分类）
    - requires  必需前置插件名称数组；空数组表示无前置
+   - prereqs   前置插件详情：hard 硬前置 / soft 软前置；每项含 name / version / note
    - tags      类型标签；中文标签同时作为筛选 key
    - github    展示用仓库地址
    - repo      GitHub 仓库完整地址
@@ -52,6 +53,17 @@ export const plugins = [
     paid: false,
     types: ['娱乐'],
     requires: [],
+    prereqs: {
+      soft: [
+        {
+          name: 'ZPoints / PlayerPoints / Vault',
+          note: {
+            zh: '金币奖励可选，任选其一安装；未安装时自动跳过',
+            en: 'Optional for coin rewards; install any one; skipped when absent'
+          }
+        }
+      ]
+    },
     features: [
       {
         title: { zh: '七日周期奖励', en: '7-day reward cycle' },
@@ -181,6 +193,237 @@ ranking:
   scoreboard-enable: true
   scoreboard-title: "&6&l签到排行榜"
   amount: 10`
+  },
+  {
+    slug: 'ZHBO_plugin_ZPoints_1.3.0',
+    name: 'ZHBO_plugin_ZPoints_1.3.0',
+    gameplay: {
+      zh: '积分商店 · 双奖池抽奖 · VIP 成长',
+      en: 'Points Shop · Dual-Pool Gacha · VIP Progression'
+    },
+    tagline: {
+      zh: '以 PlayerPoints 积分为核心，把常驻/每日商店、双奖池保底抽奖、消费排行与 VIP 成长串成完整经济循环的 1.12.2 插件。',
+      en: 'A 1.12.2 PlayerPoints economy suite that links shops, dual-pool pity gacha, spending rankings, and VIP progression into one complete loop.'
+    },
+    desc: {
+      zh: '【ZHBO】plugin_ZPoints 是一套面向 Minecraft 1.12.2 的积分经济综合插件。以 PlayerPoints 积分为核心货币、Vault 金币为第二货币，提供常驻商店、每日随机商店、有保底/无保底双奖池抽奖、消费排行榜与 VIP 等级成长；可选联动 BagTest 仓库，实现背包溢出存仓、仓库拓展器/开锁器奖励与 VIP 自动扩仓。商品、奖品、概率与提示文本全部 YAML 配置化，支持 /zp reload 热重载与 PlaceholderAPI 变量。',
+      en: '[ZHBO] plugin_ZPoints is a Minecraft 1.12.2 economy suite built on PlayerPoints and Vault. It provides permanent and daily rotating shops, pity and no-pity gacha pools, a spending leaderboard, and VIP progression, with optional BagTest integration for overflow storage, expander/unlocker rewards, and VIP storage upgrades. Items, prizes, odds, and messages are fully YAML-configurable, with hot reload and PlaceholderAPI support.'
+    },
+    server: ['Spigot', 'Paper'],
+    mc: '1.12.2',
+    versions: ['1.12.x'],
+    version: '1.3.0',
+    status: 'stable',
+    downloads: 0,
+    updated: '2026-10-27',
+    author: 'zhaobuobuo',
+    github: 'github.com/zhaobuobuo114/ZHBO_plugin_ZPoints_1.3.0',
+    repo: 'https://github.com/zhaobuobuo114/ZHBO_plugin_ZPoints_1.3.0',
+    download:
+      'https://github.com/zhaobuobuo114/ZHBO_plugin_ZPoints_1.3.0/releases/download/v1.3.0/ZHBO_plugin_ZPoints_1.3.0.jar',
+    tags: {
+      zh: ['经济', '商店', '抽奖', '保底', '排行', 'VIP', '仓库联动', 'GUI', '配置化'],
+      en: ['Economy', 'Shop', 'Gacha', 'Pity', 'Ranking', 'VIP', 'BagTest', 'GUI', 'Configurable']
+    },
+    attribute: '本体插件',
+    paid: false,
+    types: ['经济'],
+    requires: ['PlayerPoints'],
+    prereqs: {
+      hard: [
+        {
+          name: 'PlayerPoints',
+          version: '2.x',
+          note: { zh: '积分核心，必需安装', en: 'Required points core' }
+        }
+      ],
+      soft: [
+        {
+          name: 'Vault',
+          note: {
+            zh: '金币功能需要 Vault + 经济插件',
+            en: 'Coin features need Vault and an economy plugin'
+          }
+        },
+        {
+          name: 'PlaceholderAPI',
+          note: { zh: '可选变量支持', en: 'Optional placeholder support' }
+        },
+        {
+          name: 'BagTest',
+          note: { zh: '可选仓库联动', en: 'Optional storage integration' }
+        }
+      ]
+    },
+    features: [
+      {
+        title: { zh: '常驻商店 + 每日随机商店', en: 'Permanent shop + daily rotating shop' },
+        text: {
+          zh: '金币/积分双货币、分页 GUI、左键买 1 份 / Shift 批量购买，默认每日 04:00 全服刷新并显示实时倒计时。',
+          en: 'Dual currency (coins/points), paginated GUI, left-click to buy one or Shift-click to buy in bulk; the daily shop refreshes at 04:00 server time with a live countdown.'
+        }
+      },
+      {
+        title: { zh: '双奖池保底抽奖', en: 'Dual-pool pity gacha' },
+        text: {
+          zh: '默认 90 抽小保底 + 90 抽大保底、每 10 抽稀有保底、指定大奖选择，支持单抽与十连。',
+          en: 'By default, 90-pull soft pity plus 90-pull hard pity, a rare guarantee every 10 pulls, selectable grand prizes, and single or ten-pull options.'
+        }
+      },
+      {
+        title: { zh: '消费排行 + VIP 成长 + BagTest 联动', en: 'Spending ranking + VIP progression + BagTest' },
+        text: {
+          zh: '仅统计积分消费的排行榜、VIP 0~10 级递增费用与动态权限、背包溢出自动存仓及仓库拓展器/开锁器奖励。',
+          en: 'A leaderboard that counts point spending only, VIP levels 0-10 with increasing costs and dynamic permissions, automatic overflow storage, and expander/unlocker rewards.'
+        }
+      }
+    ],
+    install: {
+      zh: [
+        '安装必需前置 PlayerPoints 2.x（服务端 Java 8+）；如需金币功能，安装 Vault + 经济插件；可选 PlaceholderAPI、BagTest。',
+        '下载 ZHBO_plugin_ZPoints_1.3.0.jar 放入服务端 plugins/ 目录并重启。',
+        '编辑 plugins/ZHBO_plugin_ZPoints_1.3.0/ 下的 config.yml、messages.yml、shops/*.yml、gacha/*.yml。',
+        '执行 /zp reload 或重启服务器；玩家执行 /zp 打开主菜单。'
+      ],
+      en: [
+        'Install PlayerPoints 2.x (Java 8+); for coin features, install Vault and an economy plugin; PlaceholderAPI and BagTest are optional.',
+        'Download ZHBO_plugin_ZPoints_1.3.0.jar into the server plugins/ folder and restart.',
+        'Edit config.yml, messages.yml, shops/*.yml and gacha/*.yml under plugins/ZHBO_plugin_ZPoints_1.3.0/.',
+        'Run /zp reload or restart the server; players run /zp to open the main menu.'
+      ]
+    },
+    commands: [
+      {
+        cmd: '/zp',
+        desc: { zh: '打开主菜单', en: 'Open the main menu' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp help',
+        desc: { zh: '查看帮助', en: 'Show help' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp shop',
+        desc: { zh: '打开常驻商店', en: 'Open the permanent shop' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp shop daily',
+        desc: { zh: '打开每日随机商店', en: 'Open the daily rotating shop' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp shop daily status',
+        desc: { zh: '查看每日商店刷新倒计时', en: 'Show the daily shop refresh countdown' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp gacha',
+        desc: { zh: '打开奖池选择', en: 'Open the gacha pool selection' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp rank',
+        desc: { zh: '查看消费排行榜', en: 'View the spending leaderboard' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp vip',
+        desc: { zh: '打开 VIP 界面并在界面内升级', en: 'Open the VIP menu and upgrade there' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp points me',
+        desc: { zh: '查看我的积分', en: 'View my points' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp money me',
+        desc: { zh: '查看我的金币', en: 'View my coins' },
+        perm: 'zpoints.use'
+      },
+      {
+        cmd: '/zp reload',
+        desc: { zh: '热重载全部配置', en: 'Hot-reload all configuration' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp shop list',
+        desc: { zh: '列出常驻商品', en: 'List permanent shop items' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp shop daily refresh',
+        desc: { zh: '立即刷新每日商店', en: 'Refresh the daily shop immediately' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp shop daily pool list',
+        desc: { zh: '列出每日物品池', en: 'List the daily item pool' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp gacha prize list <pity|nopity>',
+        desc: { zh: '查看指定奖池的奖品与概率', en: 'Show prizes and odds for a pool' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp gacha resetpity <玩家>',
+        desc: { zh: '重置玩家保底进度', en: 'Reset pity progress for a player' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp gacha simulate <池> <次数> [大奖ID]',
+        desc: { zh: '模拟抽奖并统计结果', en: 'Simulate pulls and summarize results' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp points give <玩家> <数量>',
+        desc: { zh: '给予玩家积分', en: 'Give points to a player' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp money give|take <玩家> <数量>',
+        desc: { zh: '给予或扣除玩家金币', en: 'Give or take coins for a player' },
+        perm: 'zpoints.admin'
+      },
+      {
+        cmd: '/zp vip set <玩家> <等级>',
+        desc: { zh: '设置玩家 VIP 等级（0 为重置）', en: 'Set VIP level for a player (0 resets)' },
+        perm: 'zpoints.admin'
+      }
+    ],
+    config: `settings:
+  config-version: 3
+  autosave-minutes: 5
+
+shop:
+  daily:
+    enabled: true
+    slots: 8
+    refresh-hour: 4
+    refresh-minute: 0
+
+gacha:
+  cost:
+    single: 160
+    multi: 1600
+
+rank:
+  top-size: 10
+
+vip:
+  enabled: true
+  max-level: 10
+  first-cost: 50
+  base-cost: 100
+  bagtest:
+    enabled: true
+    tiers:
+      1: bagtest.vip1
+      4: bagtest.vip2
+      7: bagtest.svip`
   },
   {
     slug: 'ZHBO_plugin_GuaJiPool_1.1.1',

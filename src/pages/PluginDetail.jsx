@@ -128,6 +128,75 @@ export default function PluginDetail() {
           </div>
         </motion.section>
 
+        {(plugin.prereqs?.hard?.length > 0 || plugin.prereqs?.soft?.length > 0) && (
+          <motion.section className="detail-section" variants={item}>
+            <h2 className="section-title text-xl">{t('detail.prereqs')}</h2>
+            <div className="detail-prereqs">
+              {plugin.prereqs.hard?.length > 0 && (
+                <div className="detail-prereq-group">
+                  <div className="detail-prereq-head">
+                    <span className="detail-prereq-badge detail-prereq-badge-hard">
+                      {t('detail.hardPrereq')}
+                    </span>
+                    <span className="detail-prereq-count">{plugin.prereqs.hard.length}</span>
+                  </div>
+                  <div className="detail-prereq-list">
+                    {plugin.prereqs.hard.map((p) => (
+                      <div
+                        key={p.name}
+                        className="glass-card detail-prereq-item"
+                        data-kind="hard"
+                      >
+                        <span className="detail-prereq-dot" aria-hidden="true" />
+                        <div>
+                          <div className="detail-prereq-name">
+                            {p.name}
+                            {p.version && (
+                              <span className="detail-prereq-ver"> {p.version}</span>
+                            )}
+                          </div>
+                          <p className="detail-prereq-note">{pick(p.note)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {plugin.prereqs.soft?.length > 0 && (
+                <div className="detail-prereq-group">
+                  <div className="detail-prereq-head">
+                    <span className="detail-prereq-badge detail-prereq-badge-soft">
+                      {t('detail.softPrereq')}
+                    </span>
+                    <span className="detail-prereq-count">{plugin.prereqs.soft.length}</span>
+                  </div>
+                  <div className="detail-prereq-list">
+                    {plugin.prereqs.soft.map((p) => (
+                      <div
+                        key={p.name}
+                        className="glass-card detail-prereq-item"
+                        data-kind="soft"
+                      >
+                        <span className="detail-prereq-dot" aria-hidden="true" />
+                        <div>
+                          <div className="detail-prereq-name">
+                            {p.name}
+                            {p.version && (
+                              <span className="detail-prereq-ver"> {p.version}</span>
+                            )}
+                          </div>
+                          <p className="detail-prereq-note">{pick(p.note)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.section>
+        )}
+
         <motion.section className="detail-section" variants={item}>
           <h2 className="section-title text-xl">{t('detail.install')}</h2>
           <ol className="detail-steps">
