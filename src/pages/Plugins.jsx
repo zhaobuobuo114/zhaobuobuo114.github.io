@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search, SlidersHorizontal, X } from 'lucide-react'
+import { Mail, Search, SlidersHorizontal, Users, Wrench, X } from 'lucide-react'
 import LangSwap from '../components/LangSwap.jsx'
 import RepoCard from '../components/RepoCard.jsx'
 import { useLiquidLight } from '../hooks/useLiquidLight.js'
@@ -58,6 +58,10 @@ const TYPES = [
 const SORTS = ['updated', 'downloads']
 const EASE_OUT = [0.22, 1, 0.36, 1]
 
+const AD_EMAIL = '1071576270@qq.com'
+const AD_QQ_GROUP = '784757608'
+const AD_QQ_JOIN = 'https://qm.qq.com/q/gjfpPcb2Ja'
+
 /* 二级页：插件仓库
    顶部栏与首页完全一致；左栏搜索 + 筛选 + 插件名索引，右栏插件卡片 */
 export default function Plugins() {
@@ -68,6 +72,7 @@ export default function Plugins() {
   const [attributeKeys, setAttributeKeys] = useState([])
   const [typeKeys, setTypeKeys] = useState([])
   const [prereq, setPrereq] = useState('')
+  const [pricing, setPricing] = useState('all')
   const [sort, setSort] = useState('updated')
   const [tagKeys, setTagKeys] = useState([])
   const [filterOpen, setFilterOpen] = useState(false)
@@ -141,6 +146,8 @@ export default function Plugins() {
       const matchTy =
         typeKeys.length === 0 ||
         (p.types || []).some((type) => typeKeys.includes(type))
+      const matchPrice =
+        pricing === 'all' || (pricing === 'paid' ? !!p.paid : !p.paid)
       const need = prereq.trim().toLowerCase()
       const matchP =
         !need ||
@@ -149,7 +156,7 @@ export default function Plugins() {
           : (p.requires || []).some((r) => r.toLowerCase().includes(need)))
       const matchT =
         tagKeys.length === 0 || (p.tags?.zh || []).some((tag) => tagKeys.includes(tag))
-      return matchQ && matchS && matchV && matchA && matchTy && matchP && matchT
+      return matchQ && matchS && matchV && matchA && matchTy && matchPrice && matchP && matchT
     })
 
     return [...filtered].sort((a, b) =>
@@ -159,7 +166,7 @@ export default function Plugins() {
           ? 1
           : -1
     )
-  }, [q, server, versionKeys, attributeKeys, typeKeys, prereq, sort, tagKeys, pick, t])
+  }, [q, server, versionKeys, attributeKeys, typeKeys, prereq, pricing, sort, tagKeys, pick, t])
 
   const filterActive =
     server !== 'all' ||
@@ -168,7 +175,8 @@ export default function Plugins() {
     versionKeys.length > 0 ||
     attributeKeys.length > 0 ||
     typeKeys.length > 0 ||
-    prereq.trim() !== ''
+    prereq.trim() !== '' ||
+    pricing !== 'all'
 
   /* 左栏插件名：滚到对应卡片并高亮一下，作为页内快捷入口 */
   const jump = (slug) => {
@@ -211,6 +219,7 @@ export default function Plugins() {
     setAttributeKeys([])
     setTypeKeys([])
     setPrereq('')
+    setPricing('all')
     setSort('updated')
     setTagKeys([])
   }
@@ -355,6 +364,38 @@ export default function Plugins() {
 
                 <div className="repo-filter-block">
                   <p className="repo-filter-label">
+                    <LangSwap>{t('plugins.pricing')}</LangSwap>
+                  </p>
+                  <div className="repo-filter-group" data-cols="2">
+                    <button
+                      type="button"
+                      className="repo-filter-chip repo-filter-chip-all"
+                      data-on={pricing === 'all' ? '1' : '0'}
+                      onClick={() => setPricing('all')}
+                    >
+                      <LangSwap>{t('plugins.all')}</LangSwap>
+                    </button>
+                    <button
+                      type="button"
+                      className="repo-filter-chip"
+                      data-on={pricing === 'free' ? '1' : '0'}
+                      onClick={() => setPricing('free')}
+                    >
+                      <LangSwap>{t('plugins.free')}</LangSwap>
+                    </button>
+                    <button
+                      type="button"
+                      className="repo-filter-chip"
+                      data-on={pricing === 'paid' ? '1' : '0'}
+                      onClick={() => setPricing('paid')}
+                    >
+                      <LangSwap>{t('plugins.paid')}</LangSwap>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="repo-filter-block">
+                  <p className="repo-filter-label">
                     <LangSwap>{t('plugins.types')}</LangSwap>
                   </p>
                   <div className="repo-filter-group" data-cols="2">
@@ -464,6 +505,44 @@ export default function Plugins() {
             ))}
             {list.length === 0 && <span className="repo-index-empty">—</span>}
           </nav>
+
+          <div className="repo-ad glass-card">
+            <span className="repo-ad-head">
+              <span className="repo-ad-icon">
+                <Wrench size={14} strokeWidth={2} />
+              </span>
+              <span className="repo-ad-title font-display">
+                <LangSwap>{t('plugins.adTitle')}</LangSwap>
+              </span>
+            </span>
+            <span className="repo-ad-text">
+              <LangSwap>{t('plugins.adText')}</LangSwap>
+            </span>
+            <span className="repo-ad-contact-label">
+              <LangSwap>{t('plugins.adContact')}</LangSwap>
+            </span>
+            <span className="repo-ad-contacts">
+              <a className="repo-ad-contact" href={`mailto:${AD_EMAIL}`}>
+                <Mail size={12} strokeWidth={2} />
+                <span className="repo-ad-contact-key">
+                  <LangSwap>{t('contact.email')}</LangSwap>
+                </span>
+                <span className="repo-ad-contact-value">{AD_EMAIL}</span>
+              </a>
+              <a
+                className="repo-ad-contact"
+                href={AD_QQ_JOIN}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Users size={12} strokeWidth={2} />
+                <span className="repo-ad-contact-key">
+                  <LangSwap>{t('contact.group')}</LangSwap>
+                </span>
+                <span className="repo-ad-contact-value">{AD_QQ_GROUP}</span>
+              </a>
+            </span>
+          </div>
         </motion.aside>
 
         <section className="repo-list">

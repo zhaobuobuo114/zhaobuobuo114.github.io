@@ -1076,10 +1076,154 @@ html[data-static='1'] .grid-blocks {
   color: var(--c-muted);
 }
 
+/* 左栏广告位：定制插件 */
+.repo-ad {
+  position: relative;
+  display: block;
+  margin-top: 20px;
+  padding: 15px 16px;
+  border-color: rgba(34, 211, 238, 0.22);
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.repo-ad::before {
+  content: '';
+  position: absolute;
+  top: -70px;
+  right: -50px;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.22), transparent 70%);
+  pointer-events: none;
+}
+
+.repo-ad-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.repo-ad-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  color: var(--c-cyan);
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.24);
+}
+
+.repo-ad-title {
+  position: relative;
+  display: block;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--c-text);
+}
+
+.repo-ad-text {
+  position: relative;
+  display: block;
+  margin-top: 7px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--c-muted);
+}
+
+.repo-ad-contact-label {
+  position: relative;
+  display: block;
+  margin-top: 13px;
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8b96a8;
+}
+
+.repo-ad-contacts {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 5px;
+}
+
+.repo-ad-contact {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 6px;
+  border-radius: 7px;
+  font-size: 14px;
+  color: var(--c-muted);
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.repo-ad-contact:hover {
+  color: var(--c-text);
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.repo-ad-contact svg {
+  flex: none;
+}
+
+.repo-ad-contact-key {
+  flex: none;
+  font-size: 12.5px;
+  color: #9aa6b6;
+}
+
+.repo-ad-contact-value {
+  margin-left: auto;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--c-cyan);
+  white-space: nowrap;
+}
+
+@media (min-width: 901px) {
+  .repo-main {
+    grid-template-rows: 1fr;
+    align-items: stretch;
+    align-content: stretch;
+  }
+
+  .repo-rail {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 160px);
+  }
+
+  .repo-index {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .repo-ad {
+    flex: none;
+    margin-top: 0;
+  }
+}
+
 /* 右栏：卡片列表 */
 .repo-list {
   display: grid;
   grid-template-columns: 1fr;
+  align-content: start;
   gap: 14px;
   min-width: 0;
 }

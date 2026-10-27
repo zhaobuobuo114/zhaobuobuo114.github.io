@@ -7,6 +7,7 @@
    - mc        游戏版本，永远作为卡片第一个标签
    - versions  支持版本筛选值，按筛选项填写（如 1.12.x）
    - attribute 插件属性（本体插件 / 前置插件）
+   - paid      是否付费，true 付费 / false 免费
    - types     插件类型（中文 key，按 Spigot 分类）
    - requires  必需前置插件名称数组；空数组表示无前置
    - tags      类型标签；中文标签同时作为筛选 key
@@ -48,6 +49,7 @@ export const plugins = [
       en: ['Check-in', 'Make-up', 'Leaderboard', 'Economy', 'Configurable']
     },
     attribute: '本体插件',
+    paid: false,
     types: ['娱乐'],
     requires: [],
     features: [
@@ -179,6 +181,143 @@ ranking:
   scoreboard-enable: true
   scoreboard-title: "&6&l签到排行榜"
   amount: 10`
+  },
+  {
+    slug: 'ZHBO_plugin_GuaJiPool_1.1.1',
+    name: 'ZHBO_plugin_GuaJiPool_1.1.1',
+    gameplay: {
+      zh: '挂机池 · 区域挂机自动发奖',
+      en: 'AFK Pool · Region-Based AFK Rewards'
+    },
+    tagline: {
+      zh: '玩家站进指定区域即自动计时，倒计时结束由控制台发奖的轻量挂机池插件。',
+      en: 'A lightweight AFK pool plugin that counts down while players stay inside a defined region and grants console-configured rewards.'
+    },
+    desc: {
+      zh: 'ZHBO_plugin_GuaJiPool_1.1.1 是一款面向 Minecraft 1.12.2 的区域挂机插件。管理员通过 /guaji pos1、/guaji pos2 圈定长方体挂机区域，玩家在区域内挂机时，屏幕显示每秒刷新的大字倒计时；倒计时结束后由控制台执行奖励命令，并播放音效、粒子与聊天/大字提示，随后自动进入下一轮。挂机时长、奖励命令、提示文本、音效与粒子均可通过 config.yml 配置，支持自动热重载；离开区域可选择清零或暂停保留进度。',
+      en: 'A region-based AFK plugin for Minecraft 1.12.2. Admins define a cuboid AFK zone with /guaji pos1 and /guaji pos2; players inside get a per-player title countdown, and when it ends the plugin runs console reward commands with sound, particle, chat and title feedback, then starts the next cycle automatically. Duration, rewards, messages, sounds and particles are configurable via config.yml with auto hot-reload; leaving the zone can either reset or pause progress.'
+    },
+    server: ['Spigot', 'Paper'],
+    mc: '1.12.2',
+    versions: ['1.12.x'],
+    version: '1.1.1',
+    status: 'stable',
+    downloads: 0,
+    updated: '2026-10-27',
+    author: 'zhaobuobuo',
+    github: 'github.com/zhaobuobuo114/ZHBO_plugin_GuaJiPool_1.1.1',
+    repo: 'https://github.com/zhaobuobuo114/ZHBO_plugin_GuaJiPool_1.1.1',
+    download:
+      'https://github.com/zhaobuobuo114/ZHBO_plugin_GuaJiPool_1.1.1/releases/download/v1.1.1/ZHBO_plugin_GuaJiPool_1.1.1.jar',
+    tags: {
+      zh: ['挂机', '奖励', '区域', '配置化', '音效粒子'],
+      en: ['AFK', 'Rewards', 'Region', 'Configurable', 'Effects']
+    },
+    attribute: '本体插件',
+    paid: false,
+    types: ['娱乐'],
+    requires: [],
+    features: [
+      {
+        title: { zh: '区域挂机独立计时', en: 'Independent AFK timers' },
+        text: {
+          zh: '两个对角点圈定长方体区域，每位玩家独立倒计时，离开可清零或暂停保留。',
+          en: 'Define a cuboid zone with two corner points. Every player counts down independently, and leaving can either reset progress or pause it.'
+        }
+      },
+      {
+        title: { zh: '大字倒计时 + 视听反馈', en: 'Title countdown + effects' },
+        text: {
+          zh: 'Title 每秒刷新剩余时间（X分Y秒），最后 X 秒滴答音调递增，奖励带音效、粒子、聊天与大字提示。',
+          en: 'The title updates the remaining time every second (Xm Ys). The final seconds tick with rising pitch, and rewards play sounds, particles, chat and title feedback.'
+        }
+      },
+      {
+        title: { zh: '控制台奖励 + 自动热重载', en: 'Console rewards + auto reload' },
+        text: {
+          zh: 'rewards 支持 %player% 与任意控制台命令，发奖后自动循环；config.yml 保存后自动重载，时长不变时保留进度。',
+          en: 'rewards supports %player% and any console command, then loops automatically. config.yml reloads on save, and progress is kept when the duration is unchanged.'
+        }
+      }
+    ],
+    install: {
+      zh: [
+        '下载 ZHBO_plugin_GuaJiPool_1.1.1.jar，放入服务端 plugins/ 目录',
+        '重启服务器，自动生成 plugins/ZHBO_plugin_GuaJiPool_1.1.1/config.yml',
+        '按需修改挂机时长、奖励命令、音效与粒子',
+        '进入游戏执行 /guaji pos1、/guaji pos2 设置挂机区域',
+        '执行 /guaji status 检查区域、时长与奖励命令数量'
+      ],
+      en: [
+        'Download ZHBO_plugin_GuaJiPool_1.1.1.jar and place it in the server plugins/ folder',
+        'Restart the server to generate plugins/ZHBO_plugin_GuaJiPool_1.1.1/config.yml',
+        'Adjust the AFK duration, reward commands, sounds and particles as needed',
+        'In game, run /guaji pos1 and /guaji pos2 to define the AFK region',
+        'Run /guaji status to check the region, duration and reward command count'
+      ]
+    },
+    commands: [
+      {
+        cmd: '/guaji',
+        desc: { zh: '查看帮助，覆盖全部子命令', en: 'Show help for all subcommands' },
+        perm: 'guaji.admin'
+      },
+      {
+        cmd: '/guaji pos1',
+        desc: {
+          zh: '以站立位置设置区域角点 1，立即写入配置',
+          en: 'Set corner 1 at your position and save it immediately'
+        },
+        perm: 'guaji.admin'
+      },
+      {
+        cmd: '/guaji pos2',
+        desc: {
+          zh: '以站立位置设置区域角点 2，立即写入配置',
+          en: 'Set corner 2 at your position and save it immediately'
+        },
+        perm: 'guaji.admin'
+      },
+      {
+        cmd: '/guaji reload',
+        desc: {
+          zh: '热重载配置，时长未变时保留进度',
+          en: 'Hot-reload the configuration; progress is preserved when the duration is unchanged'
+        },
+        perm: 'guaji.admin'
+      },
+      {
+        cmd: '/guaji status',
+        desc: {
+          zh: '查看区域范围、时长、奖励命令数量与音效状态',
+          en: 'Show region bounds, duration, reward command count and sound status'
+        },
+        perm: 'guaji.admin'
+      }
+    ],
+    config: `region:
+  world: world
+  pos1: [0, 60, 0]
+  pos2: [10, 80, 10]
+duration: 600
+rewards:
+  - "give %player% diamond 1"
+  - "say %player% 获得了挂机奖励！"
+reset-on-leave: true
+auto-reload: true
+display:
+  enabled: true
+  title: "§6§l距离下次奖励还剩"
+  subtitle: "§e%time%"
+reward:
+  message: "§a✔ 你获得了挂机奖励！"
+  title: "§a§l✔ 挂机奖励已发放"
+  subtitle: ""
+  particle: "FIREWORKS_SPARK;40"
+sounds:
+  countdown-tick-seconds: 5
+  countdown-tick: "BLOCK_NOTE_PLING;1.0;1.2"
+  reward: "ENTITY_PLAYER_LEVELUP;1.0;1.0"`
   }
 ]
 
