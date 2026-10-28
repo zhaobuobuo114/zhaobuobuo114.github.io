@@ -561,6 +561,198 @@ sounds:
   countdown-tick-seconds: 5
   countdown-tick: "BLOCK_NOTE_PLING;1.0;1.2"
   reward: "ENTITY_PLAYER_LEVELUP;1.0;1.0"`
+  },
+  {
+    slug: 'ZHBO_plugin_BagTest_1.6.4',
+    name: 'ZHBO_plugin_BagTest_1.6.4',
+    gameplay: {
+      zh: '个人仓库 · 多页拓展',
+      en: 'Personal Warehouse · Multi-Page Expansion'
+    },
+    tagline: {
+      zh: '为 1.12.2 服务端打造的多页个人仓库系统，VIP 定页数上限、拓展器逐页解锁、开锁器解格、体验券限时升级。',
+      en: 'A multi-page personal storage system for 1.12.2 servers, featuring VIP page caps, expander-unlocked pages, unlocker slots and time-limited ticket upgrades.'
+    },
+    desc: {
+      zh: '玩家通过 /bag 打开仓库或可点击菜单，把物品存入独立的多页仓库。权限组决定页数上限，默认只解锁第 1 页，其余页面用仓库拓展器逐页开启；每页还包含锁定格，需仓库开锁器逐个解锁。仓库体验券可限时升级到下一权限组，到期后超出权限的页自动转为只读，只能取回不能存入。插件支持 YAML / MySQL 双存储、热重载、实时保存、来源日志、死亡保留与防丢防转移，页数、行数、标题、道具、音效粒子与提示文本全部可在 config.yml 配置。',
+      en: 'Players open their warehouse with /bag or a clickable menu and store items in independent multi-page storage. Permission groups define page caps; only page 1 is unlocked by default, and further pages are opened one by one with expanders. Every page also contains locked slots unlocked by unlockers. Warehouse tickets temporarily upgrade players to the next permission group; after expiry, pages beyond the current permission become read-only (take-out only). The plugin supports YAML/MySQL storage, hot reload, real-time saving, source logging, death retention, anti-loss/anti-transfer protection, and fully configurable pages, titles, items, sounds, particles and messages.'
+    },
+    server: ['Spigot', 'Paper'],
+    mc: '1.12.2',
+    versions: ['1.12.x'],
+    version: '1.6.4',
+    status: 'stable',
+    downloads: 0,
+    updated: '2026-10-28',
+    author: 'zhaobuobuo',
+    github: 'github.com/zhaobuobuo114/ZHBO_plugin_BagTest_1.6.4',
+    repo: 'https://github.com/zhaobuobuo114/ZHBO_plugin_BagTest_1.6.4',
+    download:
+      'https://github.com/zhaobuobuo114/ZHBO_plugin_BagTest_1.6.4/releases/download/v1.6.4/ZHBO-plugin_BagTest_1.6.4.jar',
+    tags: {
+      zh: ['仓库存储', 'GUI', '权限组', '实用工具'],
+      en: ['Storage', 'GUI', 'Permission Groups', 'Utility']
+    },
+    attribute: '本体插件',
+    paid: false,
+    types: ['综合'],
+    requires: [],
+    features: [
+      {
+        title: { zh: '多页仓库与权限组', en: 'Multi-page storage and permission groups' },
+        text: {
+          zh: '默认 1 页起，VIP 组只给页数上限，拓展器逐页解锁；组名、权限节点、页数、行数、统一或逐页标题全部配置化，支持指令绑定与权限节点双判定。',
+          en: 'Start with one page by default; VIP groups only raise the page cap, while expanders unlock pages one by one. Group names, permission nodes, page counts, rows, unified or per-page titles are all configurable, with command-binding and permission-node checks.'
+        }
+      },
+      {
+        title: { zh: '锁定格与三类特殊道具', en: 'Locked slots and three special items' },
+        text: {
+          zh: '开锁器解锁锁定格（右键自动解锁或界面内点击），拓展器开启新页并默认绑定领取者（可设获得上限），3/7 天体验券动态升级到上一权限组、可叠加时长，到期后超权限页转为只读可取回。',
+          en: 'Unlockers unlock locked slots (right-click or click in the GUI), expanders open new pages and bind to the claimer by default (with an optional gain limit), and 3/7-day tickets temporarily upgrade players to the next permission group with stackable duration; pages beyond the current permission become read-only after expiry.'
+        }
+      },
+      {
+        title: { zh: '数据安全与运维能力', en: 'Data safety and operations' },
+        text: {
+          zh: 'YAML / MySQL 双存储、MySQL 失败自动回退、热重载与配置变更自动检测、界面实时保存并与玩家 .dat 同批落盘防复制、来源日志 itemlog.txt、防丢弃/熔炼/漏斗吸取、死亡保留自动归还、音效粒子可配置。',
+          en: 'YAML/MySQL dual storage with automatic MySQL fallback, hot reload and config change detection, real-time saves flushed together with the player .dat to prevent duplication, itemlog.txt source logging, anti-drop/smelt/hopper protection, death retention with automatic return, and configurable sounds/particles.'
+        }
+      }
+    ],
+    install: {
+      zh: [
+        '下载 ZHBO-plugin_BagTest_1.6.4.jar 放入服务端 plugins/ 目录。',
+        '启动服务器，生成 plugins/ZHBO_plugin_BagTest_1.6.4/config.yml。',
+        '按需修改存储方式、权限组、锁定格、特殊物品、音效粒子与消息。',
+        '执行 /bag reload 或重启服务器；为玩家配置组权限节点或使用 /bag vip 绑定。',
+        '使用 /bag give <玩家> <unlocker|expander|ticket3|ticket7> [数量] 发放道具，玩家执行 /bag 使用。',
+        '升级注意：从旧 BagTest 升级时，需将 config.yml、groups.yml、playerdata/、itemlog.txt 迁移到新目录。'
+      ],
+      en: [
+        'Download ZHBO-plugin_BagTest_1.6.4.jar and place it in the server plugins/ folder.',
+        'Start the server to generate plugins/ZHBO_plugin_BagTest_1.6.4/config.yml.',
+        'Adjust storage, permission groups, locked slots, special items, sounds, particles and messages as needed.',
+        'Run /bag reload or restart the server; assign group permission nodes or use /bag vip to bind players.',
+        'Use /bag give <player> <unlocker|expander|ticket3|ticket7> [amount] to hand out items; players run /bag to open the warehouse.',
+        'Upgrade note: when migrating from an older BagTest, move config.yml, groups.yml, playerdata/ and itemlog.txt to the new folder.'
+      ]
+    },
+    commands: [
+      {
+        cmd: '/bag',
+        desc: { zh: '打开选项菜单（可点击页码）', en: 'Open the options menu with clickable page numbers' },
+        perm: 'bagtest.use'
+      },
+      {
+        cmd: '/bag open [页码] 或 /bag <页码>',
+        desc: { zh: '打开自己仓库指定页', en: 'Open a specific page of your warehouse' },
+        perm: 'bagtest.use'
+      },
+      {
+        cmd: '/bag open <玩家> [页码]',
+        desc: { zh: '打开他人仓库（支持离线）', en: 'Open another player warehouse (offline supported)' },
+        perm: 'bagtest.admin'
+      },
+      {
+        cmd: '/bag vip <玩家> <编号|组名|remove>',
+        desc: { zh: '设置或移除玩家 VIP 组', en: 'Set or remove a player VIP group' },
+        perm: 'bagtest.admin'
+      },
+      {
+        cmd: '/bag give <玩家> <unlocker|expander|ticket3|ticket7> [数量]',
+        desc: { zh: '发放开锁器、拓展器或体验券', en: 'Give unlockers, expanders or tickets' },
+        perm: 'bagtest.admin'
+      },
+      {
+        cmd: '/bag group add|remove|info|list',
+        desc: { zh: '分组管理', en: 'Manage groups' },
+        perm: 'bagtest.admin'
+      },
+      {
+        cmd: '/bag reload',
+        desc: { zh: '热重载配置', en: 'Hot-reload the configuration' },
+        perm: 'bagtest.admin'
+      },
+      {
+        cmd: '/bag save',
+        desc: { zh: '保存全部在线玩家数据', en: 'Save all online player data' },
+        perm: 'bagtest.admin'
+      },
+      {
+        cmd: '/bag info',
+        desc: { zh: '查看插件与个人仓库状态', en: 'View plugin and personal warehouse status' },
+        perm: 'bagtest.use'
+      },
+      {
+        cmd: '/bag help',
+        desc: { zh: '显示选项菜单', en: 'Show the options menu' },
+        perm: 'bagtest.use'
+      }
+    ],
+    config: `storage:
+  type: YAML                 # YAML | MYSQL
+  yaml:
+    data-folder: playerdata
+  mysql:
+    host: localhost
+    port: 3306
+    database: minecraft
+    username: root
+    password: "123456"
+    table-prefix: bag_
+
+groups:
+  default:
+    pages: 1
+    rows: 6
+    titles:
+      1: "&8&l✦ 我的仓库"
+  vip1:
+    permission: "bagtest.vip1"
+    pages: 3
+    rows: 6
+    title: "&6&l✦ VIP1仓库 &7- &e第{page}页"
+  vip2:
+    permission: "bagtest.vip2"
+    pages: 6
+    rows: 6
+    title: "&6&l✦ VIP2仓库 &7- &e第{page}页"
+
+bag:
+  open-cooldown: 0
+  max-pages: 20
+
+locked-slots:
+  enabled: true
+  mode: BOTTOM_HALF
+  material: STAINED_GLASS_PANE
+  data: 14
+  name: "&c🔒 锁定格子"
+
+items:
+  unlocker:
+    material: IRON_INGOT
+    bind-owner: false
+    name: "&e🔑 仓库开锁器"
+  expander:
+    material: EMERALD
+    bind-owner: true
+    gain-limit: 10
+    name: "&a📦 仓库拓展器"
+  ticket3:
+    material: PAPER
+    days: 3
+    name: "&b🎟 仓库体验券 &7(3天)"
+  ticket7:
+    material: PAPER
+    days: 7
+    name: "&d🎟 仓库体验券 &7(7天)"
+
+settings:
+  auto-save-minutes: 10
+  auto-reload: true
+  check-interval-seconds: 5`
   }
 ]
 
