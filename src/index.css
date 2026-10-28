@@ -1245,7 +1245,7 @@ html[data-static='1'] .grid-blocks {
   --edge-grow: 110px;
   position: relative;
   display: flex;
-  height: 100%;
+  height: 188px;
   flex-direction: column;
   overflow: hidden;
   padding: 18px 20px;
@@ -1355,6 +1355,11 @@ html[data-static='1'] .grid-blocks {
   position: relative;
   z-index: 1;
   min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.repo-card-inner > * {
+  min-width: 0;
 }
 
 .repo-card:hover {
@@ -1389,6 +1394,7 @@ html[data-static='1'] .grid-blocks {
 .repo-card-title {
   min-width: 0;
   margin: 0;
+  overflow: hidden;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -1396,9 +1402,23 @@ html[data-static='1'] .grid-blocks {
 }
 
 .repo-card-title-link {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
   color: inherit;
   text-decoration: none;
   transition: color 0.2s ease;
+}
+
+.repo-card-gameplay {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
 }
 
 .repo-card-title-link:hover {
@@ -1411,6 +1431,11 @@ html[data-static='1'] .grid-blocks {
 
 .repo-card-name {
   display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 13px;
   font-weight: 500;
   color: var(--c-muted);
@@ -1419,28 +1444,35 @@ html[data-static='1'] .grid-blocks {
 .repo-card-badges {
   display: flex;
   flex: none;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
   gap: 6px;
+  overflow: hidden;
 }
 
 .repo-ver {
+  max-width: 72px;
+  overflow: hidden;
   padding: 3px 7px;
   border-radius: 6px;
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 10.5px;
   color: var(--c-muted);
   background: rgba(148, 163, 184, 0.08);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .repo-srv {
+  flex: none;
   padding: 3px 8px;
   border-radius: 6px;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .repo-srv-paper {
@@ -1459,12 +1491,14 @@ html[data-static='1'] .grid-blocks {
   display: flex;
   align-items: center;
   gap: 18px;
+  min-width: 0;
   margin-top: 10px;
 }
 
 .repo-card-desc {
   flex: 1 1 auto;
   min-width: 0;
+  max-width: 100%;
   margin: 0;
   font-size: 13px;
   line-height: 1.65;
@@ -1518,6 +1552,7 @@ html[data-static='1'] .grid-blocks {
 .repo-card-foot {
   display: flex;
   flex-wrap: wrap;
+  min-width: 0;
   align-items: center;
   justify-content: space-between;
   gap: 10px 14px;
@@ -1569,9 +1604,21 @@ html[data-static='1'] .grid-blocks {
 
 .repo-author {
   display: inline-flex;
-  flex: none;
+  flex: 0 1 auto;
   align-items: center;
   gap: 4px;
+  min-width: 0;
+}
+
+.repo-author-name {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 96px;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent);
 }
 
 .repo-gh {
@@ -2061,18 +2108,34 @@ html[data-static='1'] .grid-blocks {
   }
 }
 
+@media (min-width: 561px) {
+  .repo-card-title {
+    flex: 1 1 0;
+  }
+
+  .repo-card-desc {
+    flex: 1 1 0;
+    width: 0;
+  }
+}
+
 @media (max-width: 560px) {
   .site-head-left {
     gap: 12px;
   }
 
   .repo-card {
+    height: 261px;
     padding: 16px;
   }
 
   .repo-card-top {
     flex-direction: column;
     gap: 8px;
+  }
+
+  .repo-card-title {
+    width: 100%;
   }
 
   .repo-card-badges {

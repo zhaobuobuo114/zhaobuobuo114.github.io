@@ -41,8 +41,10 @@ export default function RepoCard({ plugin, flash = false }) {
         <div className="repo-card-top">
           <h3 className="repo-card-title font-display">
             <Link to={`/plugins/${plugin.slug}`} className="repo-card-title-link">
-              {pick(plugin.gameplay)}
-              <span className="repo-card-name">
+              <span className="repo-card-gameplay" title={pick(plugin.gameplay)}>
+                {pick(plugin.gameplay)}
+              </span>
+              <span className="repo-card-name" title={plugin.name}>
                 {lang === 'zh' ? `（${plugin.name}）` : ` (${plugin.name})`}
               </span>
             </Link>
@@ -50,7 +52,7 @@ export default function RepoCard({ plugin, flash = false }) {
 
           <div className="repo-card-badges">
             <span className="repo-ver">v{plugin.version}</span>
-            {plugin.server.map((s) => (
+            {plugin.server.slice(0, 2).map((s) => (
               <span
                 key={s}
                 className={`repo-srv ${s === 'Fabric' ? 'repo-srv-fabric' : 'repo-srv-paper'}`}
@@ -94,7 +96,9 @@ export default function RepoCard({ plugin, flash = false }) {
           <div className="repo-social">
             <span className="repo-author">
               <User size={12} strokeWidth={1.9} />
-              {plugin.author}
+              <span className="repo-author-name" title={plugin.author}>
+                {plugin.author}
+              </span>
             </span>
             <a
               className="repo-gh"
