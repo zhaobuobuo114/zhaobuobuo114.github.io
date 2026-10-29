@@ -29,7 +29,7 @@ export default function Splash({ onDone }) {
   )
 
   useEffect(() => {
-    const timer = setTimeout(onDone, 6300)
+    const timer = setTimeout(onDone, 5900)
     return () => clearTimeout(timer)
   }, [onDone])
 

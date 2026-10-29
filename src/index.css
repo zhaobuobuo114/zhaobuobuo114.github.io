@@ -253,11 +253,11 @@ body {
 
 /* ---------- 开场动画 ---------- */
 .splash-shell {
-  animation: splash-out 6.3s ease-in-out forwards;
+  animation: splash-out 5.9s ease-in-out forwards;
 }
 @keyframes splash-out {
   0%,
-  87.3% {
+  93.2% {
     opacity: 1;
   }
   100% {
